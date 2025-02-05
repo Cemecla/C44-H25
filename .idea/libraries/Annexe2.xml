@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Annexe2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Annexe2/Annexe2.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Annexe2/Annexe2b.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
