@@ -25,7 +25,6 @@ public class VoyageVoyagePlusLoinQueLaNuitEtLeJourVoyage extends AppCompatActivi
     ImageView btnHotel;
     Button btnvalidate;
 
-    Commande commande;
     int qteAvion;
     int qteHotel;
 
@@ -65,21 +64,28 @@ public class VoyageVoyagePlusLoinQueLaNuitEtLeJourVoyage extends AppCompatActivi
          btnHotel.setOnClickListener(ec);
          btnvalidate.setOnClickListener(ec);
 
-         commande = new Commande();
+
 
 
     }
     private class Ecouteur implements View.OnClickListener{
 
+        Commande commande = new Commande();
         @Override
         public void onClick(View source) {
+            if(source == btnvalidate){
+                double
+            }else
             if(source == btnAvion){
                 BilletAvion p = new BilletAvion();
                 commande.ajouterProduit(p);
+                qteAvion+=1;
+
             }
             else {
                 HebergementHotel p = new HebergementHotel();
                 commande.ajouterProduit(p);
+                qteHotel+=1;
             }
 
 
