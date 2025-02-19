@@ -1,9 +1,13 @@
 package com.jacques.annexe2b_code;
 
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,19 +18,24 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.Set;
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText champNomCompte;
+    Spinner spinnerNomCompte;
     TextView champSolde;
-    Button boutonValider;
+
 
     Vector<String> choix;
 
     Button boutonEnvoyer;
     EditText champSoldeDeTransaction;
     EditText getCompteExterne;
+    Hashtable<String, Compte> ht;
 
     DecimalFormat dl = new DecimalFormat("0.00$");
         // .settext(dl.format(solde))
@@ -43,76 +52,114 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        champNomCompte = findViewById(R.id.from);
+        spinnerNomCompte = findViewById(R.id.from);
         champSolde = findViewById(R.id.from_sold);
-        boutonValider = findViewById(R.id.from_valid);
+
 
         boutonEnvoyer = findViewById(R.id.send);
         getCompteExterne = findViewById(R.id.to);
-        champSoldeDeTransaction = findViewById(R.id.to_qte);
+        champSoldeDeTransaction = findViewById(R.id.amount_send);
 
+        ht = new Hashtable<>();
 
-        soldeFictif = 1400.0;
+        ht.put ("c1", new Compte("Eparnge",25345));
+        ht.put("c2", new Compte("Cheque",4560));
+        ht.put("c3", new Compte("Epargne Plus", 50));
+
 
         choix = new Vector<>();
-        choix.add("CHEQUE");
-        choix.add("EPARGNE");
-        choix.add("EPARGNEPLUS");
+        ht.entrySet().stream()
+                .forEach(e -> choix.add(e.getValue().getNom().toString()) );
+
+//        Collection<Compte> cpts = ht.values();
+//        for(Compte c_temp: cpts){
+//            choix.add(c_temp.getNom());
+//        }
+
+        //adaptateur pour remplir le spinner
+        // this fait référence au Context et donc à l'activité de se fichier
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,choix);
 
         // Étape 1:
         Ecouteur ec = new Ecouteur();
         // Étape 2:
-        boutonValider.setOnClickListener(ec);
-        // Étape 3:
+        spinnerNomCompte.setAdapter(adapter); // Lier le spinner avec l'adapter
+
+    // Étape 3:
 
         boutonEnvoyer.setOnClickListener(ec);
+        spinnerNomCompte.setOnItemSelectedListener(ec);
+
+
+        // réucupérer les TextView sans écouteur d'événement.
+        //getCompteExterne.setText(spinnerNomCompte.getSelectedItem().toString());
 
     }
 
     // Classe interne
-    private class Ecouteur implements View.OnClickListener{
+    private class Ecouteur implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+
+        private Compte temp;
 
         @Override
         public void onClick(View source) {// parametre : source de l'événement, boutons
-            String compteChoisi = champNomCompte.getText().toString();
-            //String compteChoisi = String.valueOf(champNomCompte.getText());  -- Meme chose
-            compteChoisi = compteChoisi.toUpperCase();
-            compteChoisi = compteChoisi.trim(); // enlever les espaces inutiles au debut ou à la fin du champ texte
+
+
 
             String CompteVers = getCompteExterne.getText().toString().toUpperCase().trim();
 
 
-            if(source == boutonValider){
-                if(choix.contains(compteChoisi)){
-                    champSolde.setText("$ "+soldeFictif); // Voir aussi le decimalFormat
-                }
-                else{
-                    // param type context = synonyme de l'activité - - - MainActivity.this car il faut d'abord aller chercher la classe -- this aurait chercher l'écouteur actuel
-                    Toast.makeText(MainActivity.this, "Compte non existant !", Toast.LENGTH_SHORT).show();
-                    compteChoisi = "";
-                    champSolde.setText("");
-                }
-            }
-            else{
                 if(CompteVers.contains("@")){
                     String montant =  champSoldeDeTransaction.getText().toString();
                     double transfert = Double.parseDouble(montant);
-                    if(transfert <= soldeFictif);
-                        champSolde.setText(String.valueOf(soldeFictif));
+                        if(temp.transfer(transfert))
+                          champSolde.setText(dl.format(temp.getSolde()));
                 }
                 else
                 {
-                    getCompteExterne.setText("Pas assez de fond");
+                    getCompteExterne.setText("Manque de fond");
                     champSolde.setText("0");
                 }
 
+        }
 
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-            }
+            String str_compte_temp = choix.get(position);
 
+            temp = ht.entrySet().stream().filter(e -> e.getValue().getNom() == str_compte_temp)
+                    .map(e -> e.getValue())
+                    .findAny().get();
+
+            double solde_temp = temp.getSolde();
+
+//            double solde_temp = ht.entrySet().stream().filter(e -> e.getValue().getNom() == str_compte_temp)
+//                    .map(e -> e.getValue().getSolde())
+//                    .findFirst()
+//                    .orElse(0.00);
+
+            champSolde.setText(dl.format(solde_temp));
+
+            // Solution 1
+            //Toast.makeText(MainActivity.this, choix.get(position), Toast.LENGTH_SHORT).show();
+            //////////////////////////////////////////////////////////////////////////////////////
+            // Solution 2
+            // Les items dans le Spinner sont des TextView
+            // Donc voici un autre manière de faire le Toast
+            //TextView choisi = (TextView)view;
+            //Toast.makeText(MainActivity.this, choisi.getText().toString(), Toast.LENGTH_SHORT).show();
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            // Solution 3
+//            String compte = spinnerNomCompte.getItemAtPosition(position).toString();
+//            Toast.makeText(MainActivity.this, compte, Toast.LENGTH_SHORT).show();
 
 
         }
 
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
     }
 }
