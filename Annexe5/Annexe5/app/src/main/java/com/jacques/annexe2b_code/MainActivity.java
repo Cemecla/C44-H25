@@ -1,5 +1,7 @@
 package com.jacques.annexe2b_code;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -68,6 +71,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         choix = new Vector<>();
+
+        //choix.addAll(ht.keySet());
+        // on prend les clés et on les ajoute au vecteur, donc au spinner
+
+
         ht.entrySet().stream()
                 .forEach(e -> choix.add(e.getValue().getNom().toString()) );
 
@@ -107,19 +115,33 @@ public class MainActivity extends AppCompatActivity {
 
 
             String CompteVers = getCompteExterne.getText().toString().toUpperCase().trim();
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Erreur");
 
-
-                if(CompteVers.contains("@")){
+                if(CompteVers.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")){
                     String montant =  champSoldeDeTransaction.getText().toString();
                     double transfert = Double.parseDouble(montant);
+
                         if(temp.transfer(transfert))
                           champSolde.setText(dl.format(temp.getSolde()));
+                        else
+                        {
+                            builder.setMessage("Manque de fonds");
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+
                 }
                 else
                 {
-                    getCompteExterne.setText("Manque de fond");
+                    getCompteExterne.setText("Courriel éronné");
                     champSolde.setText("0");
+                    builder.setMessage("Le courriel donné n'est pas valide");
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
                 }
+
 
         }
 
@@ -127,6 +149,12 @@ public class MainActivity extends AppCompatActivity {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
             String str_compte_temp = choix.get(position);
+
+            //String cle = (String)spinnerNomCompte.getItemAtPosition(position)
+            //temp = ht.get(cle);
+            //champSolde.setText(df.format(temp.getSolde()));
+
+            // une hashtable est une collection qui est concu pour faire de la recherche plus rapidement
 
             temp = ht.entrySet().stream().filter(e -> e.getValue().getNom() == str_compte_temp)
                     .map(e -> e.getValue())
