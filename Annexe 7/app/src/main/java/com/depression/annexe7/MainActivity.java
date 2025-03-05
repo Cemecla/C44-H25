@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
             this.carre = new Paint(Paint.ANTI_ALIAS_FLAG);
             this.carre.setStrokeCap(Paint.Cap.ROUND);
-            this.carre.setStrokeWidth(20);
+            this.carre.setStrokeWidth(10);
 
         }
 
@@ -80,10 +80,10 @@ public class MainActivity extends AppCompatActivity {
 
             if(depart != null)
             {
-                canvas.drawRect(depart.x-30,depart.y-25,depart.x+30,depart.y+25,carre);
+                canvas.drawRect(depart.x-20,depart.y-15,depart.x+20,depart.y+15,carre);
             }
             if(arrive != null){
-                canvas.drawRect(arrive.x-30,arrive.y-25,arrive.x+30,arrive.y+25,carre);
+                canvas.drawRect(arrive.x-20,arrive.y-15,arrive.x+20,arrive.y+15,carre);
             }
             if(ligne != null){
                 canvas.drawLine(depart.x,depart.y,ligne.x,ligne.y,carre);
@@ -101,8 +101,10 @@ public class MainActivity extends AppCompatActivity {
                 ligne = null;
                 depart = new Point( (int)event.getX(), (int)event.getY());
             }
+            else
             if(event.getAction() == MotionEvent.ACTION_UP)
-            arrive = new Point( (int)event.getX(), (int)event.getY());
+                arrive = new Point( (int)event.getX(), (int)event.getY());
+            else
             if(event.getAction() == MotionEvent.ACTION_MOVE){
                 ligne = new Point((int)event.getX(),(int)event.getY());
             }
@@ -113,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("event",""+event.getAction());
 
                 surf.invalidate();
-            return true;
+            return true; // toujours mettre return true
         }
     }
 }
