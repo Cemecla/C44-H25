@@ -1,2 +1,4 @@
-package com.CaronCorp.tp1;public class Oval {
+package com.CaronCorp.tp1;
+
+public class Oval extends Forme{
 }
