@@ -68,7 +68,8 @@
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/rouge">
+                android:background="@color/rouge"
+                android:tag="#FF0000">
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,7 +1,6 @@
 package com.CaronCorp.tp1;
 
 import android.os.Bundle;
-import android.service.autofill.OnClickAction;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -13,7 +12,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageView btnLargeurTrait;
+    ImageView btn_LargeurTrait;
+
+    ImageView btn_Crayon;
+
     int largeurTrait;
 
 
@@ -28,12 +30,15 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        btnLargeurTrait = findViewById(R.id.taille_trait_img);
+        btn_LargeurTrait = findViewById(R.id.taille_trait_img);
+        btn_Crayon = findViewById(R.id.crayon_img);
+        largeurTrait = 1;
 
 
         //
         Ecouteur ec = new Ecouteur();
-        btnLargeurTrait.setOnClickListener(ec);
+        btn_LargeurTrait.setOnClickListener(ec);
+        btn_Crayon.setOnClickListener(ec);
 
 
     }
@@ -52,8 +57,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View source) {
             // on peut faire apparaitre une boite de dialogue
-            DialogLargeur dialog = new DialogLargeur(MainActivity.this);
-            dialog.show();
+
+            if(source == btn_LargeurTrait){
+                DialogLargeur dialog = new DialogLargeur(MainActivity.this);
+                dialog.show();
+            }
+
+            if(source == btn_Crayon){
+
+            }
+
         }
     }
 
