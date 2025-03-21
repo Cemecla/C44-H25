@@ -43,7 +43,7 @@ public class DialogLargeur extends Dialog {
 
         largeur = findViewById(R.id.selecteur);
         largeur.setMin(1);
-        largeur.setMax(20);
+        largeur.setMax(50);
 
 
 

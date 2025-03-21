@@ -25,7 +25,7 @@
         android:textStyle="bold" />
 
     <HorizontalScrollView
-        android:id="@+id/pipette_img"
+        android:id="@+id/top_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -35,33 +35,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/taille_trait_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/largeur_trait" />
-
-            <ImageView
-                android:id="@+id/sceau_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/remplir" />
-
-            <ImageView
-                android:id="@+id/palette_img"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/palette" />
-
-            <ImageView
-                android:id="@+id/imageView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/pipette" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/couleur1"
@@ -128,6 +101,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <HorizontalScrollView
+        android:id="@+id/bottom_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.5">
@@ -140,60 +114,87 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/rect_img"
+                android:id="@+id/rectangle"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/rectangle" />
 
             <ImageView
-                android:id="@+id/triangle_img"
+                android:id="@+id/triangle"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/triangle" />
 
             <ImageView
-                android:id="@+id/cercle_img"
+                android:id="@+id/cercle"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/cercle" />
 
             <ImageView
-                android:id="@+id/crayon_img"
+                android:id="@+id/crayon"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/crayon" />
 
             <ImageView
-                android:id="@+id/efface_img"
+                android:id="@+id/efface"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/efface" />
 
             <ImageView
-                android:id="@+id/redo_img"
+                android:id="@+id/redo"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/redo" />
 
             <ImageView
-                android:id="@+id/undo_img"
+                android:id="@+id/undo"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/undo" />
 
             <ImageView
-                android:id="@+id/save_img"
+                android:id="@+id/save"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/enregistrer" />
+
+            <ImageView
+                android:id="@+id/taille_trait"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/largeur_trait" />
+
+            <ImageView
+                android:id="@+id/sceau"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/remplir" />
+
+            <ImageView
+                android:id="@+id/palette"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/palette" />
+
+            <ImageView
+                android:id="@+id/pipette"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/pipette" />
 
         </LinearLayout>
     </HorizontalScrollView>

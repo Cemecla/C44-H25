@@ -8,11 +8,23 @@ public class Forme {
     private int couleur;
     private int strokeWidth;
 
-    private GestureStroke stroke;
+    private boolean isStroke;
 
-    public Forme(int couleur, int strokeWidth, GestureStroke stroke) {
+    public Forme(int couleur, int strokeWidth, boolean isStroke) {
         this.couleur = couleur;
         this.strokeWidth = strokeWidth;
-        this.stroke = stroke;
+        this.isStroke = isStroke;
+    }
+
+    public int getCouleur() {
+        return couleur;
+    }
+
+    public int getStrokeWidth() {
+        return strokeWidth;
+    }
+
+    public boolean isStroke() {
+        return isStroke;
     }
 }

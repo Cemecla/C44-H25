@@ -7,7 +7,12 @@ public class TraceLibre extends Forme {
     private Path chemin;
 
 
-    public TraceLibre(int couleur, int strokeWidth, GestureStroke stroke) {
+    public TraceLibre(int couleur, int strokeWidth, boolean stroke,Path p) {
         super(couleur, strokeWidth, stroke);
+        this.chemin = p;
+    }
+
+    public Path getChemin() {
+        return chemin;
     }
 }
