@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.RoundedCorner;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -22,7 +23,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.IllegalFormatCodePointException;
 import java.util.Vector;
+
+import javax.security.auth.login.LoginException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,9 +65,14 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         Ecouteur ec = new Ecouteur();
+        ColorPickerEvent col_ec = new ColorPickerEvent();
         dessins = new Vector<>();
 
-        largeurTrait = 1;
+
+        // Utiliser le crayon par defaut
+        selected_Tool = R.id.crayon;
+
+        largeurTrait = 10;
         zone_dessin = findViewById(R.id.zone_dessin);
         selected_Tool = -1;
         isStroke = true;
@@ -91,12 +100,21 @@ public class MainActivity extends AppCompatActivity {
             if(mainView.getChildAt(i) instanceof HorizontalScrollView){
                 HorizontalScrollView ScrollFrame =  (HorizontalScrollView) mainView.getChildAt(i);
 
-                if(ScrollFrame.getChildAt(0) instanceof LinearLayout){
-                    LinearLayout tempFrame = (LinearLayout) ScrollFrame.getChildAt(0);
-                    for (int j = 0; j< tempFrame.getChildCount();j++){
-                        tempFrame.getChildAt(j).setOnClickListener(ec);
+
+                    if((ScrollFrame.getChildAt(0) instanceof LinearLayout) && ScrollFrame.getChildAt(0).getId() == R.id.couleurs){
+
+                        LinearLayout tempFrame = (LinearLayout) ScrollFrame.getChildAt(0);
+                        for (int j = 0; j < tempFrame.getChildCount(); j++) {
+                            tempFrame.getChildAt(j).setOnClickListener(col_ec);
+                            }
                     }
-                }
+                    else
+                    if(ScrollFrame.getChildAt(0) instanceof LinearLayout){
+                        LinearLayout tempFrame = (LinearLayout) ScrollFrame.getChildAt(0);
+                        for (int j = 0; j< tempFrame.getChildCount();j++){
+                            tempFrame.getChildAt(j).setOnClickListener(ec);
+                        }
+                    }
             }
         }
 
@@ -115,7 +133,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private class ColorPickerEvent implements View.OnClickListener{
 
+        @Override
+        public void onClick(View source) {
+
+
+                selected_Color = source.getTag().toString();
+                Log.i("Selected Color", "onClick set: "+selected_Color);
+
+
+        }
+    }
 
 
 
@@ -125,14 +154,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View source) {
 
-
-
-
-
             if (source == findViewById(R.id.taille_trait)) {
                 DialogLargeur dialog = new DialogLargeur(MainActivity.this);
                 dialog.show();
-
             }
             else
             if (source == findViewById(R.id.crayon)) {
@@ -152,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             else
                 if(source == findViewById(R.id.triangle)){
-                    selected_Tool = R.id.cercle;
+                    selected_Tool = R.id.triangle;
                 }
             else
                 if (source == findViewById(R.id.undo)){
@@ -169,6 +193,8 @@ public class MainActivity extends AppCompatActivity {
             else
                 if(source == findViewById(R.id.sceau)){
                     //function fill tool
+                    surf.setBackgroundColor(Color.parseColor(selected_Color));
+                    surf.setTag((String) selected_Color);
                 }
             else
                 if(source == findViewById(R.id.palette)){
@@ -225,10 +251,8 @@ public class MainActivity extends AppCompatActivity {
                     String couleur;
 
                     if(selected_Tool == R.id.efface){
-                        couleur = surf.getTag().toString();
-
+                        couleur = "#Background";
                     }
-
                     else
                         couleur = selected_Color;
 
@@ -242,6 +266,14 @@ public class MainActivity extends AppCompatActivity {
                             pathCopy
                     ));
                     tempPath = null;
+                } else if (selected_Tool == R.id.rectangle) {
+                    dessins.add(new Rectangle(selected_Color,largeurTrait,true,depart,arrive));
+
+                }
+                else if(selected_Tool == R.id.cercle){
+                    int rayon = (int) Math.round(Math.sqrt(Math.pow(pendant.x - depart.x, 2) + Math.pow(pendant.y - depart.y, 2)));
+                    Point centre = new Point(depart.x,depart.y);
+                    dessins.add(new Oval(selected_Color,largeurTrait,true,rayon,centre));
                 }
             }
 
@@ -270,12 +302,22 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
+            pinceau.reset();
+
+
+
 
             // Dessiner d'abord tous les traits existants
             for (Forme f : dessins) {
-                pinceau.reset();
-                pinceau.setColor(Color.parseColor(f.getCouleur()));
+
+
+                if(f.getCouleur().equals("#Background"))
+                    pinceau.setColor(Color.parseColor(surf.getTag().toString()));
+                else
+                    pinceau.setColor(Color.parseColor(f.getCouleur()));
+
                 pinceau.setStrokeWidth(f.getStrokeWidth());
+                pinceau.setStrokeJoin(Paint.Join.ROUND);
 
                 if (f.isStroke()) {
                     pinceau.setStyle(Paint.Style.STROKE);
@@ -286,33 +328,56 @@ public class MainActivity extends AppCompatActivity {
                 if (f instanceof TraceLibre) {
                     canvas.drawPath(((TraceLibre) f).getChemin(), pinceau);
                 }
+                else if (f instanceof Rectangle){
+                    Point tempDepart = ((Rectangle) f).getDepart();
+                    Point tempArrive = ((Rectangle) f).getArrive();
+                    canvas.drawRect(tempDepart.x,tempDepart.y,tempArrive.x,tempArrive.y,pinceau);
+                }
+                else if(f instanceof Oval){
+                    Point centre = ((Oval) f).getCentre();
+                    int rayon = ((Oval) f).getRayon();
+                    canvas.drawCircle(centre.x,centre.y,rayon,pinceau);
+                }
             }
 
+
+            //Reset le painceau pour dessiner.
+            pinceau.reset();
+            pinceau.setColor(Color.parseColor(selected_Color));
+            pinceau.setStrokeWidth(largeurTrait);
+            pinceau.setStyle(Paint.Style.STROKE);
             // Dessiner le trait temporaire (en cours de dessin)
-            if (tempPath != null) {
-                pinceau.reset();
+            if(selected_Tool == R.id.crayon || selected_Tool == R.id.efface){
 
-                if (selected_Tool == R.id.crayon) {
-                    pinceau.setColor(Color.parseColor(selected_Color));
-                    pinceau.setStrokeWidth(largeurTrait);
-                    pinceau.setStyle(Paint.Style.STROKE);
-                    Log.i("En dessin", "Outil: Crayon");
-                }
-                else{
-                    if (selected_Tool == R.id.efface) {
-                    pinceau.setColor(Color.parseColor(surf.getTag().toString())); // Utiliser la couleur de fond
-                    pinceau.setStrokeWidth(largeurTrait);
-                    pinceau.setStyle(Paint.Style.STROKE);
-                    Log.i("En dessin", "Outil: Efface");
-                }}
+                if(selected_Tool == R.id.efface)
+                    pinceau.setColor(Color.parseColor(surf.getTag().toString()));
 
-                if (!tempPath.isEmpty()) {
-                    canvas.drawPath(tempPath, pinceau);
-                }
+
+                if(tempPath !=null)
+                    if (!tempPath.isEmpty())
+                        canvas.drawPath(tempPath, pinceau);
+
+
             }
 
+            else if (selected_Tool == R.id.rectangle) {
 
 
+                    if(pendant != null)
+                        canvas.drawRect(depart.x,depart.y,pendant.x,pendant.y,pinceau);
+                    else
+                        canvas.drawRect(depart.x,depart.y,depart.x,depart.y,pinceau);
+                }
+            else if (selected_Tool == R.id.cercle) {
+                    int rayon;
+                    if(pendant != null)
+                        rayon = (int) Math.round(Math.sqrt(Math.pow(pendant.x - depart.x, 2) + Math.pow(pendant.y - depart.y, 2)));
+                    else
+                        rayon = 0;
+                    canvas.drawCircle(depart.x,depart.y,rayon,pinceau);
+
+            }
+        }
 
 
         }
@@ -320,4 +385,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-}
