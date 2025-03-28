@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B86E6E"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="216dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/effet"
+        android:text="Subscribe"
+        android:textSize="30sp"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/group"
+        android:layout_width="329dp"
+        android:layout_height="97dp"
+        android:layout_marginBottom="352dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip1"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:backgroundTint="#3F51B5"
+            android:checkable="true"
+            android:tag="#3F51B5"
+            app:chipStrokeColor="@color/chip"
+            app:chipStrokeWidth="24px" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip2"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:backgroundTint="#FFC107"
+            android:checkable="true"
+            android:tag="#FFC107"
+            app:chipStrokeColor="@color/chip"
+            app:chipStrokeWidth="24px" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip3"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:backgroundTint="#00BCD4"
+            android:checkable="true"
+            android:tag="#00BCD4"
+            app:chipStrokeColor="@color/chip"
+            app:chipStrokeWidth="24px" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/showchoice"
+        android:layout_width="235dp"
+        android:layout_height="172dp"
+        android:layout_marginBottom="132dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -52,8 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     Vector<Forme> dessins;
     Path tempPath;
-
-    @SuppressLint({"ResourceAsColor", "ClickableViewAccessibility"})
+    boolean End_triangle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
             else
                 if(source == findViewById(R.id.triangle)){
                     selected_Tool = R.id.triangle;
+                    End_triangle = false;
                 }
             else
                 if (source == findViewById(R.id.undo)){
@@ -217,17 +217,28 @@ public class MainActivity extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
             active = new Point((int) event.getX(), (int) event.getY());
 
+
+            /**
+             * Action DOWN
+             */
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 Log.i("Pressed on Canva", "onTouch: Down");
-
-                if (selected_Tool == R.id.crayon || selected_Tool == R.id.efface) {
-                    tempPath = new Path();
-                    tempPath.moveTo(event.getX(), event.getY());
+                tempPath = new Path();
+                if(selected_Tool == R.id.triangle && End_triangle){
+                    tempPath.moveTo(depart.x,depart.y);
+                    tempPath.lineTo(pendant.x,pendant.y);
+                    tempPath.lineTo((int) event.getX(), (int) event.getY());
+                    tempPath.close();
                 }
+
                 arrive = null;
                 depart = null;
                 pendant = null;
                 depart = new Point((int) event.getX(), (int) event.getY());
+                if (selected_Tool == R.id.crayon || selected_Tool == R.id.efface) {
+                    tempPath.moveTo(event.getX(), event.getY());
+                }
+
 
 
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
@@ -238,6 +249,8 @@ public class MainActivity extends AppCompatActivity {
                 if ((selected_Tool == R.id.crayon || selected_Tool == R.id.efface) && tempPath != null) {
                     tempPath.lineTo(event.getX(), event.getY());
                 }
+
+
 
 
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -266,7 +279,9 @@ public class MainActivity extends AppCompatActivity {
                             pathCopy
                     ));
                     tempPath = null;
-                } else if (selected_Tool == R.id.rectangle) {
+                }
+
+                else if (selected_Tool == R.id.rectangle) {
                     dessins.add(new Rectangle(selected_Color,largeurTrait,true,depart,arrive));
 
                 }
@@ -275,6 +290,12 @@ public class MainActivity extends AppCompatActivity {
                     Point centre = new Point(depart.x,depart.y);
                     dessins.add(new Oval(selected_Color,largeurTrait,true,rayon,centre));
                 }
+                else if (selected_Tool == R.id.triangle) {
+                    End_triangle = true;
+
+
+                }
+
             }
 
             surf.invalidate();
@@ -338,6 +359,7 @@ public class MainActivity extends AppCompatActivity {
                     int rayon = ((Oval) f).getRayon();
                     canvas.drawCircle(centre.x,centre.y,rayon,pinceau);
                 }
+
             }
 
 
@@ -356,8 +378,6 @@ public class MainActivity extends AppCompatActivity {
                 if(tempPath !=null)
                     if (!tempPath.isEmpty())
                         canvas.drawPath(tempPath, pinceau);
-
-
             }
 
             else if (selected_Tool == R.id.rectangle) {
@@ -377,6 +397,17 @@ public class MainActivity extends AppCompatActivity {
                     canvas.drawCircle(depart.x,depart.y,rayon,pinceau);
 
             }
+            else if(selected_Tool == R.id.triangle){
+                if(pendant !=null)
+                    canvas.drawLine(depart.x,depart.y,pendant.x,pendant.y,pinceau);
+                Log.i("Triangle", "onDraw: line"+ End_triangle);
+
+                if (End_triangle){
+                    canvas.drawPath(tempPath,pinceau);
+                    Log.i("Triangle", "onDraw: Close triangle");
+                }
+            }
+
         }
 
 

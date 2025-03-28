@@ -38,6 +38,14 @@
             android:orientation="horizontal"
             android:tag="couleurs">
 
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="#AF3939"
+                android:tag="#AF3939" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/couleur1"
                 android:layout_width="48dp"

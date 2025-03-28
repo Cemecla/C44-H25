@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-  
+    <item android:state_checked="true"  android:color="#3E3A3A"  >
+
+            <corners android:radius="12dp" />
+            <stroke android:width="24px"/>
+
+    </item>
+
+    <item android:color="#6E6868" >
+
+            <corners android:radius="12dp" />
+            <stroke android:width="24px" />
+
+
+    </item>
+
 </selector>
