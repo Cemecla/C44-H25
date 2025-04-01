@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.RoundedCorner;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
@@ -22,6 +23,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.IllegalFormatCodePointException;
 import java.util.Vector;
@@ -49,10 +53,12 @@ public class MainActivity extends AppCompatActivity {
     Point active;
 
     SurfaceDessin surf;
-
+    ChipGroup groupCouleurs;
     Vector<Forme> dessins;
     Path tempPath;
     boolean End_triangle;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         Ecouteur ec = new Ecouteur();
         ColorPickerEvent col_ec = new ColorPickerEvent();
         dessins = new Vector<>();
+        groupCouleurs = findViewById(R.id.couleurs);
 
 
         // Utiliser le crayon par defaut
@@ -100,14 +107,6 @@ public class MainActivity extends AppCompatActivity {
                 HorizontalScrollView ScrollFrame =  (HorizontalScrollView) mainView.getChildAt(i);
 
 
-                    if((ScrollFrame.getChildAt(0) instanceof LinearLayout) && ScrollFrame.getChildAt(0).getId() == R.id.couleurs){
-
-                        LinearLayout tempFrame = (LinearLayout) ScrollFrame.getChildAt(0);
-                        for (int j = 0; j < tempFrame.getChildCount(); j++) {
-                            tempFrame.getChildAt(j).setOnClickListener(col_ec);
-                            }
-                    }
-                    else
                     if(ScrollFrame.getChildAt(0) instanceof LinearLayout){
                         LinearLayout tempFrame = (LinearLayout) ScrollFrame.getChildAt(0);
                         for (int j = 0; j< tempFrame.getChildCount();j++){
@@ -115,6 +114,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
             }
+        }
+
+        for (int i = 0; i < groupCouleurs.getChildCount(); i++) {
+            Chip temp = (Chip) groupCouleurs.getChildAt(i);
+            temp.setOnCheckedChangeListener(col_ec);
         }
 
     }
@@ -132,18 +136,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class ColorPickerEvent implements View.OnClickListener{
+private class ColorPickerEvent implements CompoundButton.OnCheckedChangeListener{
 
-        @Override
-        public void onClick(View source) {
-
-
-                selected_Color = source.getTag().toString();
-                Log.i("Selected Color", "onClick set: "+selected_Color);
-
-
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(isChecked) {
+            String couleur = buttonView.getTag().toString();
+            selected_Color = couleur;
         }
     }
+}
 
 
 

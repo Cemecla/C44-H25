@@ -28,83 +28,125 @@
         android:id="@+id/top_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="0.95">
 
-        <LinearLayout
+        <com.google.android.material.chip.ChipGroup
             android:id="@+id/couleurs"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:tag="couleurs">
+            android:tag="couleurs"
+            app:chipSpacing="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:selectionRequired="true"
+            app:singleSelection="true">
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:backgroundTint="#AF3939"
-                android:tag="#AF3939" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/couleur1"
-                android:layout_width="48dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/rouge"
-                android:tag="#FF0000">
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/couleur2"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/bleu"
-                android:tag="#0000FF">
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/couleur3"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/vert"
-                android:tag="#008000">
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/couleur4"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/rose"
-                android:tag="#FF00FF">
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.material.chip.Chip
                 android:id="@+id/couleur5"
-                android:layout_width="50dp"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:background="@color/black"
-                android:tag="#FF000000">
+                android:backgroundTint="@color/black"
+                android:checkable="true"
+                android:checked="true"
+                android:tag="#FF000000"
+                app:chipCornerRadius="30dp"
+                app:chipIconEnabled="false"
+                app:chipIconVisible="false"
+                app:chipMinHeight="60dp"
+                app:chipMinTouchTargetSize="0dp"
+                app:chipStrokeColor="@color/chip"
+                app:chipStrokeWidth="12px"
+                app:ensureMinTouchTargetSize="false" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/couleur1"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/rouge"
+                android:checkable="true"
+                android:tag="#FF0000"
+                app:chipCornerRadius="30dp"
+                app:chipIconEnabled="false"
+                app:chipIconVisible="false"
+                app:chipMinHeight="60dp"
+                app:chipMinTouchTargetSize="0dp"
+                app:chipStrokeColor="@color/chip"
+                app:chipStrokeWidth="12px"
+                app:ensureMinTouchTargetSize="false" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.material.chip.Chip
+                android:id="@+id/couleur2"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/bleu"
+                android:checkable="true"
+                android:tag="#0000FF"
+                app:chipCornerRadius="30dp"
+                app:chipIconEnabled="false"
+                app:chipIconVisible="false"
+                app:chipMinHeight="60dp"
+                app:chipMinTouchTargetSize="0dp"
+                app:chipStrokeColor="@color/chip"
+                app:chipStrokeWidth="12px"
+                app:ensureMinTouchTargetSize="false" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/couleur3"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/vert"
+                android:checkable="true"
+                android:tag="#008000"
+                app:chipCornerRadius="30dp"
+                app:chipIconEnabled="false"
+                app:chipIconVisible="false"
+                app:chipMinHeight="60dp"
+                app:chipMinTouchTargetSize="0dp"
+                app:chipStrokeColor="@color/chip"
+                app:chipStrokeWidth="12px"
+                app:ensureMinTouchTargetSize="false" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/couleur4"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/rose"
+                android:checkable="true"
+                android:tag="#FF00FF"
+                app:chipCornerRadius="30dp"
+                app:chipIconEnabled="false"
+                app:chipIconVisible="false"
+                app:chipMinHeight="60dp"
+                app:chipMinTouchTargetSize="0dp"
+                app:chipStrokeColor="@color/chip"
+                app:chipStrokeWidth="12px"
+                app:ensureMinTouchTargetSize="false" />
+
+
+            <com.google.android.material.chip.Chip
                 android:id="@+id/couleur6"
-                android:layout_width="50dp"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:tag="#FFFFFFFF">
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
+                android:backgroundTint="@color/white"
+                android:checkable="true"
+                android:tag="#FFFFFFFF"
+                app:chipCornerRadius="30dp"
+                app:chipIconEnabled="false"
+                app:chipIconVisible="false"
+                app:chipMinHeight="60dp"
+                app:chipMinTouchTargetSize="0dp"
+                app:chipStrokeColor="@color/chip"
+                app:chipStrokeWidth="12px"
+                app:ensureMinTouchTargetSize="false" />
+        </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout

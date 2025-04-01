@@ -15,7 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-public class MainActivity extends AppCompatActivity {
+public class    MainActivity extends AppCompatActivity {
 
     ChipGroup groupe;
 
