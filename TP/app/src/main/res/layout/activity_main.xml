@@ -240,13 +240,6 @@
                 app:srcCompat="@drawable/efface" />
 
             <ImageView
-                android:id="@+id/redo"
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/redo" />
-
-            <ImageView
                 android:id="@+id/undo"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
@@ -254,11 +247,11 @@
                 app:srcCompat="@drawable/undo" />
 
             <ImageView
-                android:id="@+id/save"
+                android:id="@+id/redo"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/enregistrer" />
+                app:srcCompat="@drawable/redo" />
 
             <ImageView
                 android:id="@+id/taille_trait"
@@ -273,6 +266,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/remplir" />
+
+            <ImageView
+                android:id="@+id/save"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/enregistrer" />
 
             <ImageView
                 android:id="@+id/palette"

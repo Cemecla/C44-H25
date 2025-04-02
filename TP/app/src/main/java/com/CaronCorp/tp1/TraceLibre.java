@@ -7,8 +7,8 @@ public class TraceLibre extends Forme {
     private Path chemin;
 
 
-    public TraceLibre(String couleur, int strokeWidth, boolean stroke,Path p) {
-        super(couleur, strokeWidth, stroke);
+    public TraceLibre(String couleur, int strokeWidth,Path p) {
+        super(couleur, strokeWidth);
         this.chemin = new Path(p);
     }
 

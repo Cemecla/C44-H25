@@ -7,8 +7,8 @@ public class Oval extends Forme{
 
     private int rayon;
     private Point centre;
-    public Oval(String couleur, int strokeWidth, boolean stroke, int rayon, Point centre) {
-        super(couleur, strokeWidth, stroke);
+    public Oval(String couleur, int strokeWidth, int rayon, Point centre) {
+        super(couleur, strokeWidth);
         this.centre = centre;
         this.rayon = rayon;
     }

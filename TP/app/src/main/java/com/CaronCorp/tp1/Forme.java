@@ -10,10 +10,14 @@ public class Forme {
 
     private boolean isStroke;
 
-    public Forme(String couleur, int strokeWidth, boolean isStroke) {
+    public Forme(String couleur, int strokeWidth) {
         this.couleur = couleur;
         this.strokeWidth = strokeWidth;
-        this.isStroke = isStroke;
+        this.isStroke = true;
+    }
+
+    public void setup_forme(){
+
     }
 
     public void dessiner(){

@@ -160,37 +160,8 @@ private class ColorPickerEvent implements CompoundButton.OnCheckedChangeListener
                 dialog.show();
             }
             else
-            if (source == findViewById(R.id.crayon)) {
-                selected_Tool = R.id.crayon;
-                }
-            else
-                if(source == findViewById(R.id.efface)){
-                    selected_Tool = R.id.efface;
-                }
-            else
-                if (source == findViewById(R.id.rectangle)){
-                    selected_Tool = R.id.rectangle;
-                }
-            else
-                if (source == findViewById(R.id.cercle)){
-                    selected_Tool = R.id.cercle;
-                }
-            else
                 if(source == findViewById(R.id.triangle)){
-                    selected_Tool = R.id.triangle;
                     End_triangle = false;
-                }
-            else
-                if (source == findViewById(R.id.undo)){
-                    //function de undo
-                }
-            else
-                if(source == findViewById(R.id.redo)){
-                    //function de redo
-                }
-            else
-                if(source == findViewById(R.id.save)){
-                    //function de save
                 }
             else
                 if(source == findViewById(R.id.sceau)){
@@ -198,21 +169,8 @@ private class ColorPickerEvent implements CompoundButton.OnCheckedChangeListener
                     surf.setBackgroundColor(Color.parseColor(selected_Color));
                     surf.setTag((String) selected_Color);
                 }
-            else
-                if(source == findViewById(R.id.palette)){
-                    //function de selection de couleur
-                }
-            else
-                if(source == findViewById(R.id.pipette))
-                {
-                    //function de copie de couleur
-                }
 
-
-            Log.i("Choix tool", "onClick: efface ID: " + R.id.efface);
-            Log.i("Choix tool", "onClick: crayon ID: " + R.id.crayon);
-            Log.i("Choix tool", "onClick: selected_Tool: " + selected_Tool);
-
+                selected_Tool = source.getId();
         }
 
         @Override
@@ -231,7 +189,7 @@ private class ColorPickerEvent implements CompoundButton.OnCheckedChangeListener
                     tempPath.lineTo(pendant.x,pendant.y);
                     tempPath.lineTo((int) event.getX(), (int) event.getY());
                     tempPath.close();
-                    dessins.add(new Triangle(selected_Color,largeurTrait,true,tempPath));
+                    dessins.add(new Triangle(selected_Color,largeurTrait,tempPath));
                 }
 
                 arrive = null;
@@ -278,30 +236,26 @@ private class ColorPickerEvent implements CompoundButton.OnCheckedChangeListener
                     dessins.add(new TraceLibre(
                             couleur,
                             largeurTrait,
-                            isStroke,
                             pathCopy
                     ));
                     tempPath = null;
                 }
 
                 else if (selected_Tool == R.id.rectangle) {
-                    dessins.add(new Rectangle(selected_Color,largeurTrait,true,depart,arrive));
+                    dessins.add(new Rectangle(selected_Color,largeurTrait,depart,arrive));
 
                 }
                 else if(selected_Tool == R.id.cercle){
                     int rayon = (int) Math.round(Math.sqrt(Math.pow(pendant.x - depart.x, 2) + Math.pow(pendant.y - depart.y, 2)));
                     Point centre = new Point(depart.x,depart.y);
-                    dessins.add(new Oval(selected_Color,largeurTrait,true,rayon,centre));
+                    dessins.add(new Oval(selected_Color,largeurTrait,rayon,centre));
                 }
                 else if (selected_Tool == R.id.triangle) {
                     End_triangle = !End_triangle;
-
                 }
 
             }
-
             surf.invalidate();
-
             return true;
         }
     }
@@ -313,10 +267,7 @@ private class ColorPickerEvent implements CompoundButton.OnCheckedChangeListener
 
         public SurfaceDessin(Context context) {
             super(context);
-
             this.pinceau = new Paint(Paint.ANTI_ALIAS_FLAG);
-            //pinceau.setColor(Color.BLACK);
-
 
         }
 

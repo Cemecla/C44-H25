@@ -5,8 +5,8 @@ import android.graphics.Path;
 
 public class Triangle extends Forme{
     private Path chemin;
-    public Triangle(String couleur, int strokeWidth, boolean stroke, Path path) {
-        super(couleur, strokeWidth, stroke);
+    public Triangle(String couleur, int strokeWidth, Path path) {
+        super(couleur, strokeWidth);
         chemin = new Path(path);
     }
 
