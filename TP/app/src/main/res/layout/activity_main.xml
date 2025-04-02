@@ -146,6 +146,40 @@
                 app:chipStrokeColor="@color/chip"
                 app:chipStrokeWidth="12px"
                 app:ensureMinTouchTargetSize="false" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/couleur7"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/cyan"
+                android:checkable="true"
+                android:tag="#00FFFF"
+                app:chipCornerRadius="30dp"
+                app:chipIconEnabled="false"
+                app:chipIconVisible="false"
+                app:chipMinHeight="60dp"
+                app:chipMinTouchTargetSize="0dp"
+                app:chipStrokeColor="@color/chip"
+                app:chipStrokeWidth="12px"
+                app:ensureMinTouchTargetSize="false"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/couleur8"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/gold"
+                android:checkable="true"
+                android:tag="#FFD700"
+                app:chipCornerRadius="30dp"
+                app:chipIconEnabled="false"
+                app:chipIconVisible="false"
+                app:chipMinHeight="60dp"
+                app:chipMinTouchTargetSize="0dp"
+                app:chipStrokeColor="@color/chip"
+                app:chipStrokeWidth="12px"
+                app:ensureMinTouchTargetSize="false"/>
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 

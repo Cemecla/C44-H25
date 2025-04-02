@@ -16,6 +16,10 @@ public class Forme {
         this.isStroke = isStroke;
     }
 
+    public void dessiner(){
+
+    }
+
     public String getCouleur() {
         return couleur;
     }

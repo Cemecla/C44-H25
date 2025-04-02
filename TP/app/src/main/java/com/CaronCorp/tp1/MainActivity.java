@@ -231,6 +231,7 @@ private class ColorPickerEvent implements CompoundButton.OnCheckedChangeListener
                     tempPath.lineTo(pendant.x,pendant.y);
                     tempPath.lineTo((int) event.getX(), (int) event.getY());
                     tempPath.close();
+                    dessins.add(new Triangle(selected_Color,largeurTrait,true,tempPath));
                 }
 
                 arrive = null;
@@ -293,8 +294,7 @@ private class ColorPickerEvent implements CompoundButton.OnCheckedChangeListener
                     dessins.add(new Oval(selected_Color,largeurTrait,true,rayon,centre));
                 }
                 else if (selected_Tool == R.id.triangle) {
-                    End_triangle = true;
-
+                    End_triangle = !End_triangle;
 
                 }
 
@@ -360,6 +360,11 @@ private class ColorPickerEvent implements CompoundButton.OnCheckedChangeListener
                     Point centre = ((Oval) f).getCentre();
                     int rayon = ((Oval) f).getRayon();
                     canvas.drawCircle(centre.x,centre.y,rayon,pinceau);
+                }
+                else if (f instanceof Triangle) {
+                    canvas.drawPath(((Triangle) f).getChemin(), pinceau);
+
+
                 }
 
             }
