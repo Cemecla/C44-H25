@@ -1,6 +1,8 @@
 package com.CaronCorp.tp1;
 
 import android.gesture.GestureStroke;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
 
 public class Rectangle extends Forme{
@@ -13,11 +15,20 @@ public class Rectangle extends Forme{
         this.arrive = new Point(arrive);
     }
 
-    public Point getDepart() {
-        return depart;
+
+    @Override
+    public void dessiner(Canvas canvas, Paint pinceau, String background) {
+        configurerPinceau(pinceau, background);
+        canvas.drawRect(depart.x, depart.y, arrive.x, arrive.y, pinceau);
     }
 
-    public Point getArrive() {
-        return arrive;
+
+
+    @Override
+    public void dessinerPreview(Canvas canvas, Paint pinceau) {
+        canvas.drawRect(depart.x, depart.y, arrive.x, arrive.y, pinceau);
     }
+
+
+
 }
