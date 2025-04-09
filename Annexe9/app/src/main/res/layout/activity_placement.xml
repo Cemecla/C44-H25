@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/main"
     android:orientation="vertical"
-    tools:context="com.eric.labonte.projetplacement.PlacementActivity">
+    tools:context="com.example.annexe9.PlacementActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package ???;
+package com.example.annexe9;
 
 
 
@@ -22,11 +22,13 @@ public class PlacementActivity extends AppCompatActivity {
     private TextView labelReponse;
     private Button bouton;
 
+    private Placement placement;
+
+    private Ecouteur ec;
 
 
 
-
-    public DecimalFormat d = new DecimalFormat("0.00$");
+    public DecimalFormat d = new DecimalFormat("#,###.##$");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +54,38 @@ public class PlacementActivity extends AppCompatActivity {
         numberPicker.setFormatter(formatter);
         
         // 3 étapes
+        ec = new Ecouteur();
 
+        bouton.setOnClickListener(ec);
 
 
 
     }
 
+
+    private class Ecouteur implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            int nbrMois = numberPicker.getValue() * 12;
+
+            try {
+                double montant = Double.parseDouble(champMontant.getText().toString()); // Peut lancer un number FormatException si on entre du texte au lieu d'un nombre
+                placement = new Placement(montant,nbrMois);
+                double resultat = placement.calculerMontantFinal();
+                labelReponse.setText(d.format(resultat) );
+            } catch (NumberFormatException nfe){
+                creerAlertDialog("Recommencer en entrant un montant valide");
+                champMontant.setText("");
+                champMontant.requestFocus();
+                champMontant.setHint("Entrez un nombre, ex: 1000");
+                labelReponse.setText("");
+            }
+            catch (Exception nfe){
+                // Ce ne sera pas un numberformatException, C'est une généralisation pour dire toutes les exceptions...
+            }
+        }
+    }
 
     //pour créer une boite de dialogue simple
     public void creerAlertDialog(String message) {
