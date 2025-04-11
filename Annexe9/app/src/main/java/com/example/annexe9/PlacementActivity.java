@@ -81,9 +81,18 @@ public class PlacementActivity extends AppCompatActivity {
                 champMontant.setHint("Entrez un nombre, ex: 1000");
                 labelReponse.setText("");
             }
+            catch (NegatifException ne){
+                creerAlertDialog(ne.getMessage());
+                champMontant.setText("");
+                champMontant.requestFocus();
+                champMontant.setHint("Entrez un nombre, ex: 1000");
+                labelReponse.setText("");
+            }
             catch (Exception nfe){
                 // Ce ne sera pas un numberformatException, C'est une généralisation pour dire toutes les exceptions...
+                
             }
+
         }
     }
 
