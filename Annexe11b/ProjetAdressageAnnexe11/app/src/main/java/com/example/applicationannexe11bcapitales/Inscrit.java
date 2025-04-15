@@ -29,6 +29,10 @@ public class Inscrit {
         if(! etatRetout.equals(etat))
             throw new AdresseException(capitale,etat);
 
+        else{
+
+        }
+
 
     }
 }

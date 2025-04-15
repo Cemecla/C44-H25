@@ -113,14 +113,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-            if(view == spinnerCapitale)
-                str_capital = captiale.elementAt(position);
+            if(parent == spinnerCapitale)
+                str_capital = captiale.get(position);
             else
-            if(view == spinnerEtat)    str_etat = etat.elementAt(position);
+            if(parent == spinnerEtat)
+                str_etat = etat.get(position);
 
             else {
-                str_capital = "";
-                str_etat = "";
+                str_capital = captiale.get(0);
+                str_etat = etat.get(0);
             }
 
         }
