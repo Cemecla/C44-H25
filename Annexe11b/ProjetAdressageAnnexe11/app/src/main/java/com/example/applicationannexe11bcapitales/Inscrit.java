@@ -16,10 +16,7 @@ public class Inscrit {
 
     public Inscrit(String nom, String prenom, String adresse, String capitale, String etat, String codeZip)throws AdresseException
     {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.adresse = adresse;
-        this.codeZip = codeZip;
+
 
 
         HashtableAssociation asso = new HashtableAssociation();
@@ -29,9 +26,13 @@ public class Inscrit {
         if(! etatRetout.equals(etat))
             throw new AdresseException(capitale,etat);
 
-        else{
+        this.nom = nom;
+        this.prenom = prenom;
+        this.adresse = adresse;
+        this.codeZip = codeZip;
+        this.capitale = capitale;
+        this.etat = etat;
 
-        }
 
 
     }

@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
 
             try{
                 personne = new Inscrit(nom,prenom,adresse,str_capital,str_etat,zip);
+                //str_capital peux également directement appeler spinnerCapitale.getSelectedItem()
+
             }
             catch (AdresseException ae){
                 creerAlertDialog(ae.getMessage());
