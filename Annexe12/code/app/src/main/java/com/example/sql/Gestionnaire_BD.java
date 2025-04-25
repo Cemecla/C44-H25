@@ -49,11 +49,11 @@ public class Gestionnaire_BD extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Si jamais on demande une mise à jour, on va seulement
-        db.execSQL("DROP TABLE IF EXISTS inveneteur");
+        db.execSQL("DROP TABLE IF EXISTS inventeur");
         onCreate(db);
     }
 
-    public void ouvrirConexion(){
+    public void ouvrirConnexion(){
         database = this.getWritableDatabase();
     }
     public void fermerConnexion(){
@@ -81,8 +81,11 @@ public class Gestionnaire_BD extends SQLiteOpenHelper {
         String[] tab = {nomInventeur,invention};
 
         Cursor cur = database.rawQuery(requete,tab);
+
+        boolean temp_retour = cur.moveToNext();
+
         cur.close();
-        return cur.moveToNext();
+        return temp_retour;
 
     }
 

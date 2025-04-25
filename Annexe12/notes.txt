@@ -1,0 +1,1 @@
+Liste.setOnItemClickListener(null) pour retirer les evenements de l'item
