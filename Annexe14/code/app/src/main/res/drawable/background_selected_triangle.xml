@@ -8,7 +8,7 @@
         android:name="triableGroup">
         <path
             android:strokeColor="#F80D0D"
-            android:strokeWidth="2"
+            android:strokeWidth="1"
             android:name="triangle"
             android:fillColor="#000000"
             android:pathData="M0,100 L100, 100 L50,0 z" />

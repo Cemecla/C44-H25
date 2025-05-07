@@ -30,7 +30,14 @@
         android:background="@drawable/background_triangles"
         android:gravity="bottom"
         android:orientation="vertical"
-        android:paddingBottom="10dp"></LinearLayout>
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/jeton" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -39,14 +46,28 @@
         android:background="@drawable/background_triangles"
         android:gravity="bottom"
         android:orientation="vertical"
-        android:paddingBottom="10dp"></LinearLayout>
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/jeton" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@drawable/background_selected_triangle"
+        android:background="@drawable/background_triangles"
         android:gravity="bottom"
         android:orientation="vertical"
-        android:paddingBottom="10dp"></LinearLayout>
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/jeton" />
+    </LinearLayout>
 </LinearLayout>
