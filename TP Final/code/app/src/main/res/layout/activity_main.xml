@@ -159,6 +159,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/card_slot_asc"
                     android:orientation="vertical"></LinearLayout>
 
                 <Space
@@ -170,6 +171,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/card_slot_asc"
                     android:orientation="vertical"></LinearLayout>
             </LinearLayout>
 
@@ -189,6 +191,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/card_slot_desc"
                     android:orientation="vertical">
 
                 </LinearLayout>
@@ -202,6 +205,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/card_slot_desc"
                     android:orientation="vertical"></LinearLayout>
             </LinearLayout>
         </LinearLayout>
