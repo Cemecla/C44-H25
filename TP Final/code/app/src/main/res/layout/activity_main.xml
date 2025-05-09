@@ -117,6 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="#575454"
         android:orientation="vertical">
 
         <LinearLayout
@@ -150,63 +151,179 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/asc_layer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/asc_left"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/card_slot_asc"
-                    android:orientation="vertical"></LinearLayout>
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3" />
+                    <LinearLayout
+                        android:id="@+id/asc_left_frame"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:background="@drawable/card_slot_asc"
+                        android:gravity="center|right"
+                        android:paddingRight="10dp">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/card_slot_asc"
-                    android:orientation="vertical"></LinearLayout>
-            </LinearLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/asc_card_left"
+                            android:layout_width="60dp"
+                            android:layout_height="90dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.3"
-                android:orientation="horizontal"></LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/card_slot_desc"
-                    android:orientation="vertical">
-
+                            <TextView
+                                android:id="@+id/textView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/card"
+                                android:gravity="right"
+                                android:paddingRight="4dp"
+                                android:text="0"
+                                android:textStyle="bold" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <Space
+                    android:id="@+id/spacer_v1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3" />
+                    android:layout_weight="0.1" />
 
                 <LinearLayout
+                    android:id="@+id/asc_right"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/card_slot_desc"
-                    android:orientation="vertical"></LinearLayout>
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/asc_right_frame"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:background="@drawable/card_slot_asc"
+                        android:gravity="center|right"
+                        android:paddingRight="10dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/asc_card_right"
+                            android:layout_width="60dp"
+                            android:layout_height="90dp">
+
+                            <TextView
+                                android:id="@+id/textView3"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/card"
+                                android:gravity="right"
+                                android:paddingRight="4dp"
+                                android:text="0"
+                                android:textStyle="bold"
+                                tools:layout_editor_absoluteX="1dp"
+                                tools:layout_editor_absoluteY="38dp" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/spacer_h"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:orientation="horizontal"></LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/desc_layer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/desc_left"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/desc_left_frame"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:background="@drawable/card_slot_desc"
+                        android:gravity="center|right"
+                        android:paddingRight="10dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/desc_card_left"
+                            android:layout_width="60dp"
+                            android:layout_height="90dp">
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/card"
+                                android:gravity="right"
+                                android:paddingRight="4dp"
+                                android:text="97"
+                                android:textStyle="bold"
+                                tools:layout_editor_absoluteY="36dp" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Space
+                    android:id="@+id/spacer_v2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1" />
+
+                <LinearLayout
+                    android:id="@+id/desc_right"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/desc_right_frame"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:background="@drawable/card_slot_desc"
+                        android:gravity="center|right"
+                        android:paddingRight="10dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/desc_card_right"
+                            android:layout_width="60dp"
+                            android:layout_height="90dp">
+
+                            <TextView
+                                android:id="@+id/textView5"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/card"
+                                android:gravity="right"
+                                android:paddingRight="4dp"
+                                android:text="97"
+                                android:textStyle="bold"
+                                tools:layout_editor_absoluteY="42dp" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -215,7 +332,159 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="horizontal"></LinearLayout>
+            android:background="@drawable/card_table"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/table_col1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/table_col1_row1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="60dp"
+                        android:layout_height="90dp">
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/table_col1_row2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="60dp"
+                        android:layout_height="90dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/table_col2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/table_col2_row1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="60dp"
+                        android:layout_height="90dp">
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/table_col2_row2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="60dp"
+                        android:layout_height="90dp">
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/table_col3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/table_col3_row1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="60dp"
+                        android:layout_height="90dp">
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/table_col3_row2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="60dp"
+                        android:layout_height="90dp">
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/table_col4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/table_col4_row1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="60dp"
+                        android:layout_height="90dp">
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/table_col4_row2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="60dp"
+                        android:layout_height="90dp">
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
