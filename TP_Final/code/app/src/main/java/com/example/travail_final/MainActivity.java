@@ -1,5 +1,6 @@
 package com.example.travail_final;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.DragEvent;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     Vector<Carte> carte_restantes;
     Ecouteur ecouteur;
 
+    TextView label_cartes;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     //Méthode ON_CREATE
+        ecouteur = new Ecouteur();
         remplir_cartes();
+        label_cartes = findViewById(R.id.label_cartes);
 
         //Ecouteurs sur les cartes sur la table
         LinearLayout cards_from = findViewById(R.id.cards_from);
@@ -48,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 //Pour chaque item par rangée
                 LinearLayout item = (LinearLayout) colonne.getChildAt(j);
                 ConstraintLayout conteneur_carte = (ConstraintLayout) item.getChildAt(0);
-                conteneur_carte.getChildAt(0).setOnTouchListener(ecouteur);
+                //conteneur_carte.getChildAt(0).setOnTouchListener(ecouteur);
                 conteneur_carte.setOnDragListener(ecouteur);
             }
         }
@@ -98,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     /** Méthode pour ajouter des cartes la ou il y en a pas
      *
      */
+
     private void remplir_cartes(){
         LinearLayout cards_from = findViewById(R.id.cards_from);
         for (int i = 0; i < cards_from.getChildCount(); i++) {
@@ -131,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onDrag(View v, DragEvent event) {
 
-            Toast.makeText(MainActivity.this, "Drag", Toast.LENGTH_SHORT).show();
             switch (event.getAction()){
                 case DragEvent.ACTION_DROP:
                     carte = (View) event.getLocalState();
@@ -143,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                     case_carte.addView(carte);
                     carte.setVisibility(View.VISIBLE);
                     break;
+
             }
 
             return true;
@@ -154,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
             v.startDragAndDrop(null,builder,v,0);
             v.setVisibility(View.INVISIBLE);
 
-            Toast.makeText(MainActivity.this, "Touch", Toast.LENGTH_SHORT).show();
 
             return true;
         }
