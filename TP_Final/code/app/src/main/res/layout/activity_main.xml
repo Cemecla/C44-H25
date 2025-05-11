@@ -177,7 +177,8 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/asc_card_left"
                             android:layout_width="60dp"
-                            android:layout_height="90dp">
+                            android:layout_height="90dp"
+                            android:tag="droppable">
 
                             <TextView
                                 android:id="@+id/textView"
@@ -217,7 +218,8 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/asc_card_right"
                             android:layout_width="60dp"
-                            android:layout_height="90dp">
+                            android:layout_height="90dp"
+                            android:tag="droppable">
 
                             <TextView
                                 android:id="@+id/textView3"
@@ -268,7 +270,8 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/desc_card_left"
                             android:layout_width="60dp"
-                            android:layout_height="90dp">
+                            android:layout_height="90dp"
+                            android:tag="droppable">
 
                             <TextView
                                 android:id="@+id/textView4"
@@ -310,7 +313,8 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/desc_card_right"
                             android:layout_width="60dp"
-                            android:layout_height="90dp">
+                            android:layout_height="90dp"
+                            android:tag="droppable">
 
                             <TextView
                                 android:id="@+id/textView5"

@@ -1,11 +1,13 @@
 package com.example.travail_final;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     Ecouteur ecouteur;
 
     TextView label_cartes;
+
+    Button menu_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
+        menu_btn = findViewById(R.id.fn_menu);
+        menu_btn.setOnClickListener(ecouteur);
 
 
 
@@ -132,27 +137,55 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
+            if(v == menu_btn){
+                finish();
+            }
+
         }
 
         @Override
         public boolean onDrag(View v, DragEvent event) {
 
-            switch (event.getAction()){
+            switch (event.getAction()) {
                 case DragEvent.ACTION_DROP:
                     carte = (View) event.getLocalState();
+                    try {
+                        if (v.getTag().toString().equals("droppable")) {
 
-                    ConstraintLayout parent = (ConstraintLayout) carte.getParent();
-                    parent.removeView(carte);
+                            ConstraintLayout parent = (ConstraintLayout) carte.getParent();
+                            parent.removeView(carte);
 
-                    ConstraintLayout case_carte = (ConstraintLayout) v;
-                    case_carte.addView(carte);
-                    carte.setVisibility(View.VISIBLE);
+                            ConstraintLayout case_carte = (ConstraintLayout) v;
+                            case_carte.addView(carte);
+                            //carte.setVisibility(View.VISIBLE);
+                            //carte.setOnTouchListener(null);
+                            //carte = null;
+                        }
+                        else {
+                            carte.setVisibility(View.VISIBLE);
+                            carte = null;
+                        }
+                    } catch (NullPointerException npe) {
+                        if (carte != null) {
+                            carte.setVisibility(View.VISIBLE);
+                            carte = null;
+                        }
+                    }
                     break;
+
+                    case DragEvent.ACTION_DRAG_ENDED:
+                        if(carte != null && carte.getVisibility() == View.INVISIBLE){
+                            carte.setVisibility(View.VISIBLE);
+                            carte.setOnTouchListener(null);
+                            carte = null;
+                        }
 
             }
 
+
             return true;
         }
+
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {

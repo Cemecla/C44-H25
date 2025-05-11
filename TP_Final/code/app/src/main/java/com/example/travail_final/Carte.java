@@ -37,6 +37,7 @@ public class Carte {
                 return carte.getNumero() > this.numero;
         }
 
+
         @SuppressLint("UseCompatLoadingForDrawables")
         public static TextView get_format(Context c, int num){
                 TextView temp = new TextView(c);
