@@ -178,7 +178,7 @@
                             android:id="@+id/asc_card_left"
                             android:layout_width="60dp"
                             android:layout_height="90dp"
-                            android:tag="droppable">
+                            android:tag="0">
 
                             <TextView
                                 android:id="@+id/textView"
@@ -219,7 +219,7 @@
                             android:id="@+id/asc_card_right"
                             android:layout_width="60dp"
                             android:layout_height="90dp"
-                            android:tag="droppable">
+                            android:tag="1">
 
                             <TextView
                                 android:id="@+id/textView3"
@@ -271,7 +271,7 @@
                             android:id="@+id/desc_card_left"
                             android:layout_width="60dp"
                             android:layout_height="90dp"
-                            android:tag="droppable">
+                            android:tag="2">
 
                             <TextView
                                 android:id="@+id/textView4"
@@ -314,7 +314,7 @@
                             android:id="@+id/desc_card_right"
                             android:layout_width="60dp"
                             android:layout_height="90dp"
-                            android:tag="droppable">
+                            android:tag="3">
 
                             <TextView
                                 android:id="@+id/textView5"

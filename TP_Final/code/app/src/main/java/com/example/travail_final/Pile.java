@@ -1,31 +1,53 @@
 package com.example.travail_final;
 
+import android.view.View;
+
 import java.util.Objects;
+import java.util.Vector;
 
 public class Pile {
-    private Carte carte;
+
+    private Vector<Carte> cartes;
+    private int temp_points;
     private String type; // asc ou desc ou null
 
-    public Pile(Carte carte, String type) {
-        this.carte = carte;
+    public Pile(String type) {
+        cartes = new Vector<>();
         this.type = type;
+        if(type.toUpperCase() == "ASC"){
+            cartes.add(new Carte(0));
+        }else{
+            cartes.add(new Carte(97));
+        }
     }
 
-    public Carte getCarte() {
-        return carte;
+
+
+
+    public Carte getDerniereCarte() {
+        return this.cartes.lastElement();
     }
 
-    public String getType() {
-        return type;
-    }
+    public boolean isCarteValide(Carte carte) {
+        if(Objects.equals(type, "ASC")){
 
-    public boolean setCarte(Carte carte) {
-        if(Objects.equals(type, "asc")){
-            return this.carte.est_inferieure_a(carte);
+            return this.cartes.lastElement().est_inferieure_a(carte);
         }
         else {
-            return this.carte.est_superieur_a(carte);
+            return this.cartes.lastElement().est_superieur_a(carte);
         }
+    }
 
+
+
+    public void add_carte(Carte carte) { // Ajout d'une carte sur le paquet.
+        this.cartes.add(carte);
+    }
+
+    public int getPoints(){ // Renvoie les points que la dernière carte à aquise.
+        return temp_points;
+    }
+    public void updatePile(){ // Valide le jeu en mettant les valeurs temporaire à par defaut.
+        temp_points = 0;
     }
 }
