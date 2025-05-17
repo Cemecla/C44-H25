@@ -1,5 +1,6 @@
 package com.example.travail_final;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -31,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
     Pile [] piles;
 
-    Pile [] record_actions;
+    Pile last_action;
+
+    int score;
 
 
     @Override
@@ -51,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         init_cartes();
         remplir_cartes();
         label_cartes = findViewById(R.id.label_cartes);
+        update_labels();
+        score = 0;
 
 
 
@@ -98,9 +103,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     private void update_labels(){
-        label_cartes.setText((carte_restantes.size())+"");
+
+        // update du label du nombres de cartes
+        int carte_posee = 0;
+        LinearLayout cards_from = findViewById(R.id.cards_from);
+        for (int i = 0; i < cards_from.getChildCount(); i++) {
+            //Pour chaque colonne
+            LinearLayout colonne = (LinearLayout) cards_from.getChildAt(i);
+            for (int j = 0; j < colonne.getChildCount(); j++) {
+                //Pour chaque item par rangée
+                LinearLayout item = (LinearLayout) colonne.getChildAt(j);
+                ConstraintLayout conteneur_carte = (ConstraintLayout) item.getChildAt(0);
+                if(conteneur_carte.getChildAt(0) != null) {
+                    carte_posee +=1;
+                }
+            }
+        }
+        int cartes_totales = carte_restantes.size() + carte_posee;
+
+        label_cartes.setText(String.valueOf(cartes_totales));
+
+        // update du label du score
+
     }
+
 
 
 
@@ -109,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void init_cartes(){
         carte_restantes = new Vector<>();
-        for (int i = 1; i <= 97; i++) {
+        for (int i = 1; i < 98; i++) {
             carte_restantes.add(new Carte(i));
         }
 
@@ -131,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                     if (!carte_restantes.isEmpty()) {
                         //ajouter carte depuis le deck
                         Collections.shuffle(carte_restantes);
-                        Carte c_temp = carte_restantes.firstElement();
+                        Carte c_temp = carte_restantes.remove(0);
                         TextView carte = Carte.get_format(MainActivity.this, c_temp.getNumero());
                         conteneur_carte.addView(carte);
                         carte.setOnTouchListener(ecouteur);
@@ -142,7 +170,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private boolean
+    private void gestion_enregistrement_mouvements(Pile pile_temp){
+        // Si il y a eu deux actions
+        if(last_action == null){
+            last_action = pile_temp;
+        }else{
+            last_action = null;
+            remplir_cartes();
+        }
+    }
 
 
 
@@ -200,6 +236,10 @@ public class MainActivity extends AppCompatActivity {
                                 case_carte.addView(carte_joue);
                                 carte_joue.setOnTouchListener(null);
                                 pile_temp.add_carte(temp_carte);
+                                gestion_enregistrement_mouvements(pile_temp);
+
+                                update_labels();
+
                             }
 
 
@@ -211,7 +251,6 @@ public class MainActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DRAG_ENDED:
                     if (v instanceof ConstraintLayout){
                         carte_joue.setVisibility(View.VISIBLE);
-                        //carte_joue = null;
                     }
                     break;
 

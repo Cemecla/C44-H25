@@ -280,7 +280,7 @@
                                 android:background="@drawable/card"
                                 android:gravity="right"
                                 android:paddingRight="4dp"
-                                android:text="97"
+                                android:text="98"
                                 android:textStyle="bold"
                                 tools:layout_editor_absoluteY="36dp" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -323,7 +323,7 @@
                                 android:background="@drawable/card"
                                 android:gravity="right"
                                 android:paddingRight="4dp"
-                                android:text="97"
+                                android:text="98"
                                 android:textStyle="bold"
                                 tools:layout_editor_absoluteY="42dp" />
                         </androidx.constraintlayout.widget.ConstraintLayout>

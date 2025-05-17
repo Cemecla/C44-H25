@@ -37,7 +37,10 @@ public class Carte {
                 return carte.getNumero() > this.numero;
         }
 
+        public boolean est_different_de_10(Carte carte){ return (Math.abs(carte.getNumero()-this.numero)) == 10; }
 
+
+        // Méthode statique pour créer des cartes avec les mêmes attributs
         @SuppressLint("UseCompatLoadingForDrawables")
         public static TextView get_format(Context c, int num){
                 TextView temp = new TextView(c);
