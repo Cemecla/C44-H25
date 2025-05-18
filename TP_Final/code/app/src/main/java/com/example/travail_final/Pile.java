@@ -8,11 +8,11 @@ import java.util.Vector;
 public class Pile {
 
     private Vector<Carte> cartes;
-    private int temp_points;
+
     private String type; // asc ou desc ou null
 
     public Pile(String type) {
-        this.temp_points = 0;
+
         cartes = new Vector<>();
         this.type = type;
         if(type.equalsIgnoreCase("ASC")){
@@ -29,12 +29,13 @@ public class Pile {
         return this.cartes.lastElement();
     }
 
+    public Carte retirer_carte(){
+        return this.cartes.remove(this.cartes.size()-1);
+    }
+
     public boolean isCarteValide(Carte carte) {
         boolean diff10 = this.cartes.lastElement().est_different_de_10(carte);
 
-        if(diff10){
-            temp_points = 15;
-        }else {temp_points = 5;}
 
         if(Objects.equals(type, "ASC")){
 
@@ -52,10 +53,21 @@ public class Pile {
         this.cartes.add(carte);
     }
 
-    public int getPoints(){ // Renvoie les points que la dernière carte à aquise.
-        return temp_points;
+    public int get_valeur(){
+        int score_par_carte = cartes.size();
+        int score_par_somme = cartes.stream().mapToInt(Carte::getNumero).sum(); // rappel du cours de session passée
+        int score_par_diff10 = 0;
+
+        for (int i = 0; i < cartes.size()-1; i++) {
+            if(cartes.get(i).est_different_de_10(cartes.get(i+1))){
+                score_par_diff10+=10;
+            }
+            else
+                score_par_diff10+=2;
+
+        }
+
+        return score_par_diff10 + score_par_somme + score_par_carte;
     }
-    public void updatePile(){ // Valide le jeu en mettant les valeurs temporaire à par defaut.
-        temp_points = 0;
-    }
+
 }

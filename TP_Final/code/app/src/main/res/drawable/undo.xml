@@ -1,0 +1,24 @@
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0">
+
+    <!-- Arc de cercle -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M 6.5,9
+                          C 7.5,7 9.5,5.5 12,5.5
+                          C 16,5.5 19.5,9 19.5,13
+                          C 19.5,17 16,20.5 12,20.5
+                          C 8,20.5 4.5,17 4.5,13" />
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M 4.9,11 L 5.5,6.7 L 9,9 Z" />
+</vector>

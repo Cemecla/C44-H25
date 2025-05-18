@@ -1,11 +1,15 @@
 package com.example.travail_final;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,12 +31,17 @@ public class MainActivity extends AppCompatActivity {
     Ecouteur ecouteur;
 
     TextView label_cartes;
+    TextView label_score;
+    Chronometer label_chrono;
 
     Button menu_btn;
 
-    Pile [] piles;
+    ImageView undo;
 
+    Pile [] piles;
     Pile last_action;
+
+    Vector<ConstraintLayout> slots_sous_ecoutes;
 
     int score;
 
@@ -54,10 +63,14 @@ public class MainActivity extends AppCompatActivity {
         init_cartes();
         remplir_cartes();
         label_cartes = findViewById(R.id.label_cartes);
+        label_score = findViewById(R.id.label_score);
+        label_chrono = findViewById(R.id.label_temps);
+        undo = findViewById(R.id.undo_img);
         update_labels();
         score = 0;
 
 
+        slots_sous_ecoutes = new Vector<>();
 
         //Ecouteurs sur les cartes sur la table
         LinearLayout cards_from = findViewById(R.id.cards_from);
@@ -91,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                         LinearLayout frame = (LinearLayout) temp.getChildAt(0);
                         ConstraintLayout co = (ConstraintLayout) frame.getChildAt(0);
                         co.setOnDragListener(ecouteur);
+                        slots_sous_ecoutes.add(co);
                     }
                 }
             }
@@ -98,11 +112,16 @@ public class MainActivity extends AppCompatActivity {
 
         menu_btn = findViewById(R.id.fn_menu);
         menu_btn.setOnClickListener(ecouteur);
+        undo.setOnClickListener(ecouteur);
 
 
     }
 
-
+    private void run_chrono(){
+        long elapsedRealtime = SystemClock.elapsedRealtime();
+        label_chrono.setBase(elapsedRealtime);
+        label_chrono.start();
+    }
 
     private void update_labels(){
 
@@ -124,6 +143,17 @@ public class MainActivity extends AppCompatActivity {
         int cartes_totales = carte_restantes.size() + carte_posee;
 
         label_cartes.setText(String.valueOf(cartes_totales));
+
+        int total_points = 0;
+        for (Pile p: piles) {
+            total_points += p.get_valeur();
+        }
+        total_points-=200;
+        label_score.setText(String.valueOf(total_points));
+
+        if(cartes_totales < 97 && !label_chrono.isActivated()){
+            run_chrono();
+        }
 
         // update du label du score
 
@@ -180,7 +210,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    private void undo(){
+        if(last_action != null){
+            Animation rotateAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotation_animation);
+            undo.startAnimation(rotateAnimation);
+            Carte c = last_action.retirer_carte();
+            for (int i = 0; i < piles.length; i++) {
+                if(piles[i].getDerniereCarte().equals(c))
+                {
+                    ConstraintLayout slot = slots_sous_ecoutes.get(i);
+                    slot.removeAllViews();
+                    
+                }
+            }
+        }
+    }
 
 
     class Ecouteur implements View.OnClickListener, View.OnDragListener, View.OnTouchListener {
@@ -193,6 +237,10 @@ public class MainActivity extends AppCompatActivity {
 
             if (v == menu_btn) {
                 finish();
+            }
+            if(v == undo){
+
+                undo();
             }
 
         }
@@ -223,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
 
                         if (v instanceof ConstraintLayout) {
 
+                            // essayer de voir pour placer les Views dans un Vector à la place de devoir appeler les 2 boucles constamment
 
                             //logique de jeu
                             int valeur_carte = Integer.parseInt(((TextView)carte_joue).getText().toString());
@@ -236,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
                                 case_carte.addView(carte_joue);
                                 carte_joue.setOnTouchListener(null);
                                 pile_temp.add_carte(temp_carte);
+
                                 gestion_enregistrement_mouvements(pile_temp);
 
                                 update_labels();
@@ -270,5 +320,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
 
+        super.onStop();
+    }
 }
