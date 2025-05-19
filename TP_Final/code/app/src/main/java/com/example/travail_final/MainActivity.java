@@ -21,6 +21,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Vector;
 
 
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     Pile [] piles;
     Pile last_action;
 
+    HashMap<String,Vector<ConstraintLayout>> slots_de_cartes;
     Vector<ConstraintLayout> slots_sous_ecoutes;
 
     int score;
@@ -61,16 +63,19 @@ public class MainActivity extends AppCompatActivity {
         piles = new Pile[]{new Pile("ASC"), new Pile("ASC"), new Pile("DESC"), new Pile("DESC")};
 
         init_cartes();
-        remplir_cartes();
+
         label_cartes = findViewById(R.id.label_cartes);
         label_score = findViewById(R.id.label_score);
         label_chrono = findViewById(R.id.label_temps);
         undo = findViewById(R.id.undo_img);
-        update_labels();
+
         score = 0;
 
+        slots_de_cartes = new HashMap<>();
+        slots_de_cartes.put("slots_from",new Vector<ConstraintLayout>());
+        slots_de_cartes.put("slots_to",new Vector<ConstraintLayout>());
 
-        slots_sous_ecoutes = new Vector<>();
+        //slots_sous_ecoutes = new Vector<>();
 
         //Ecouteurs sur les cartes sur la table
         LinearLayout cards_from = findViewById(R.id.cards_from);
@@ -83,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 ConstraintLayout conteneur_carte = (ConstraintLayout) item.getChildAt(0);
                 //conteneur_carte.getChildAt(0).setOnTouchListener(ecouteur);
                 conteneur_carte.setOnDragListener(ecouteur);
+                slots_de_cartes.get("slots_from").add(conteneur_carte);
             }
         }
 
@@ -104,11 +110,14 @@ public class MainActivity extends AppCompatActivity {
                         LinearLayout frame = (LinearLayout) temp.getChildAt(0);
                         ConstraintLayout co = (ConstraintLayout) frame.getChildAt(0);
                         co.setOnDragListener(ecouteur);
-                        slots_sous_ecoutes.add(co);
+                        slots_de_cartes.get("slots_to").add(co);
+
                     }
                 }
             }
         }
+        update_labels();
+        remplir_cartes();
 
         menu_btn = findViewById(R.id.fn_menu);
         menu_btn.setOnClickListener(ecouteur);
@@ -123,40 +132,36 @@ public class MainActivity extends AppCompatActivity {
         label_chrono.start();
     }
 
-    private void update_labels(){
+    private void update_labels() {
 
         // update du label du nombres de cartes
         int carte_posee = 0;
-        LinearLayout cards_from = findViewById(R.id.cards_from);
-        for (int i = 0; i < cards_from.getChildCount(); i++) {
-            //Pour chaque colonne
-            LinearLayout colonne = (LinearLayout) cards_from.getChildAt(i);
-            for (int j = 0; j < colonne.getChildCount(); j++) {
-                //Pour chaque item par rangée
-                LinearLayout item = (LinearLayout) colonne.getChildAt(j);
-                ConstraintLayout conteneur_carte = (ConstraintLayout) item.getChildAt(0);
-                if(conteneur_carte.getChildAt(0) != null) {
-                    carte_posee +=1;
-                }
+
+        Vector<ConstraintLayout> temp = new Vector<>(slots_de_cartes.get("slots_from")) ;
+
+        for (ConstraintLayout co : temp) {
+            if (co.getChildAt(0) != null) {
+                carte_posee += 1;
             }
+
+            int cartes_totales = carte_restantes.size() + carte_posee;
+
+            label_cartes.setText(String.valueOf(cartes_totales));
+
+            int total_points = 0;
+            for (Pile p : piles) {
+                total_points += p.get_valeur();
+            }
+            total_points -= 200;
+            label_score.setText(String.valueOf(total_points));
+
+            if (cartes_totales == 97 && !label_chrono.isActivated()) {
+                run_chrono();
+            }
+
+            // update du label du score
+
         }
-        int cartes_totales = carte_restantes.size() + carte_posee;
-
-        label_cartes.setText(String.valueOf(cartes_totales));
-
-        int total_points = 0;
-        for (Pile p: piles) {
-            total_points += p.get_valeur();
-        }
-        total_points-=200;
-        label_score.setText(String.valueOf(total_points));
-
-        if(cartes_totales < 97 && !label_chrono.isActivated()){
-            run_chrono();
-        }
-
-        // update du label du score
-
     }
 
 
@@ -177,26 +182,23 @@ public class MainActivity extends AppCompatActivity {
      *
      */
     private void remplir_cartes(){
-        LinearLayout cards_from = findViewById(R.id.cards_from);
-        for (int i = 0; i < cards_from.getChildCount(); i++) {
-            //Pour chaque colonne
-            LinearLayout colonne = (LinearLayout) cards_from.getChildAt(i);
-            for (int j = 0; j < colonne.getChildCount(); j++) {
-                //Pour chaque item par rangée
-                LinearLayout item = (LinearLayout) colonne.getChildAt(j);
-                ConstraintLayout conteneur_carte = (ConstraintLayout) item.getChildAt(0);
-                if(conteneur_carte.getChildAt(0) == null) {
-                    if (!carte_restantes.isEmpty()) {
-                        //ajouter carte depuis le deck
-                        Collections.shuffle(carte_restantes);
-                        Carte c_temp = carte_restantes.remove(0);
-                        TextView carte = Carte.get_format(MainActivity.this, c_temp.getNumero());
-                        conteneur_carte.addView(carte);
-                        carte.setOnTouchListener(ecouteur);
-                    }
+
+        Vector<ConstraintLayout> temp = new Vector<>(slots_de_cartes.get("slots_from")) ;
+
+        for (ConstraintLayout co : temp) {
+            if (co.getChildAt(0) == null) {
+                if (!carte_restantes.isEmpty()) {
+
+                    //ajouter carte depuis le deck
+                    Collections.shuffle(carte_restantes);
+                    Carte c_temp = carte_restantes.remove(0);
+                    TextView carte = Carte.get_format(MainActivity.this, c_temp.getNumero());
+                    co.addView(carte);
+                    carte.setOnTouchListener(ecouteur);
                 }
             }
         }
+
 
     }
 
@@ -212,17 +214,59 @@ public class MainActivity extends AppCompatActivity {
 
     private void undo(){
         if(last_action != null){
+            // Si il y a une dernière action enregistré alors on lance l'animation
             Animation rotateAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotation_animation);
             undo.startAnimation(rotateAnimation);
-            Carte c = last_action.retirer_carte();
-            for (int i = 0; i < piles.length; i++) {
-                if(piles[i].getDerniereCarte().equals(c))
-                {
-                    ConstraintLayout slot = slots_sous_ecoutes.get(i);
-                    slot.removeAllViews();
-                    
+
+            Pile pile_a_manipuler;
+
+            //Trouver la pile ou est placé la dernière carte posée
+//            for (Pile p: piles) {
+//
+//            }
+
+            Carte carte_a_replacer = last_action.retirer_carte();
+
+            int valeur_carte_chercher = carte_a_replacer.getNumero(); // retirer la carte à déplacer de la pile.
+
+            // Chercher la pile ou se trouve la carte avant le undo
+            Vector<ConstraintLayout> temp = new Vector<>(slots_de_cartes.get("slots_to")) ;
+            for (ConstraintLayout co : temp) {
+                if(co.getChildAt(0) != null){
+                    TextView carte_temp = (TextView) co.getChildAt(0);
+
+                    int valeur_carte_temp = Integer.parseInt(carte_temp.getText().toString());
+
+                    if (valeur_carte_temp == valeur_carte_chercher){
+                        //retirer la carte sur le visuel
+                        co.removeAllViews();
+                        TextView carte = Carte.get_format(MainActivity.this, last_action.getDerniereCarte().getNumero());
+                        co.addView(carte);
+                        //afficher la nouvelle derniere carte de la pile.
+
+
+
+                    }
+                }
+
+            }
+
+            Vector<ConstraintLayout> temp_from = new Vector<>(slots_de_cartes.get("slots_from")) ;
+
+            for (ConstraintLayout co : temp_from) {
+                if (co.getChildAt(0) == null) {
+
+                        //ajouter carte depuis le deck
+
+
+                        TextView carte = Carte.get_format(MainActivity.this, carte_a_replacer.getNumero());
+                        co.addView(carte);
+                        carte.setOnTouchListener(ecouteur);
+
                 }
             }
+            last_action = null;
+            update_labels();
         }
     }
 
