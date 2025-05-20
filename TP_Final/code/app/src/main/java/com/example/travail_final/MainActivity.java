@@ -1,7 +1,9 @@
 package com.example.travail_final;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
     Pile last_action;
 
     HashMap<String,Vector<ConstraintLayout>> slots_de_cartes;
-    Vector<ConstraintLayout> slots_sous_ecoutes;
+    Gestionnaire_DB instance;
+
+    Popup p;
 
     int score;
 
@@ -59,7 +63,13 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     //Méthode ON_CREATE
+        reset();
+
+    }
+    public void reset(){
+        //tentative
         ecouteur = new Ecouteur();
+        instance = Gestionnaire_DB.getInstance(getApplicationContext());
         piles = new Pile[]{new Pile("ASC"), new Pile("ASC"), new Pile("DESC"), new Pile("DESC")};
 
         init_cartes();
@@ -81,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout cards_from = findViewById(R.id.cards_from);
         for (int i = 0; i < cards_from.getChildCount(); i++) {
             //Pour chaque colonne
-                LinearLayout colonne = (LinearLayout) cards_from.getChildAt(i);
+            LinearLayout colonne = (LinearLayout) cards_from.getChildAt(i);
             for (int j = 0; j < colonne.getChildCount(); j++) {
                 //Pour chaque item par rangée
                 LinearLayout item = (LinearLayout) colonne.getChildAt(j);
@@ -123,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
         menu_btn.setOnClickListener(ecouteur);
         undo.setOnClickListener(ecouteur);
 
+        p = new Popup(MainActivity.this);
+
 
     }
 
@@ -132,9 +144,15 @@ public class MainActivity extends AppCompatActivity {
         label_chrono.start();
     }
 
-    private void update_labels() {
-
-        // update du label du nombres de cartes
+    private int getScore(){
+        int total_points = 0;
+        for (Pile p : piles) {
+            total_points += p.get_valeur();
+        }
+        total_points -= 200;
+        return total_points;
+    }
+    private int getNbr_cartes(){
         int carte_posee = 0;
 
         Vector<ConstraintLayout> temp = new Vector<>(slots_de_cartes.get("slots_from")) ;
@@ -143,26 +161,23 @@ public class MainActivity extends AppCompatActivity {
             if (co.getChildAt(0) != null) {
                 carte_posee += 1;
             }
-
-            int cartes_totales = carte_restantes.size() + carte_posee;
-
-            label_cartes.setText(String.valueOf(cartes_totales));
-
-            int total_points = 0;
-            for (Pile p : piles) {
-                total_points += p.get_valeur();
-            }
-            total_points -= 200;
-            label_score.setText(String.valueOf(total_points));
-
-            if (cartes_totales == 97 && !label_chrono.isActivated()) {
-                run_chrono();
-            }
-
-            // update du label du score
-
         }
+
+        return carte_restantes.size() + carte_posee;
     }
+
+    private void update_labels() {
+
+        // update du label du nombres de cartes
+        int cartes_totales = getNbr_cartes();
+
+        label_cartes.setText(String.valueOf(cartes_totales));
+
+
+        label_score.setText(String.valueOf(getScore()));
+
+    }
+
 
 
 
@@ -172,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void init_cartes(){
         carte_restantes = new Vector<>();
-        for (int i = 1; i < 98; i++) {
+        for (int i = 1; i < 10; i++) {
             carte_restantes.add(new Carte(i));
         }
 
@@ -237,13 +252,13 @@ public class MainActivity extends AppCompatActivity {
 
                     int valeur_carte_temp = Integer.parseInt(carte_temp.getText().toString());
 
-                    if (valeur_carte_temp == valeur_carte_chercher){
+                    if (valeur_carte_temp == valeur_carte_chercher && last_action != null){
                         //retirer la carte sur le visuel
                         co.removeAllViews();
                         TextView carte = Carte.get_format(MainActivity.this, last_action.getDerniereCarte().getNumero());
                         co.addView(carte);
                         //afficher la nouvelle derniere carte de la pile.
-
+                        last_action = null;
 
 
                     }
@@ -268,6 +283,57 @@ public class MainActivity extends AppCompatActivity {
             last_action = null;
             update_labels();
         }
+    }
+
+    private boolean enDefaite(){
+        //pour chaque slots_from
+            // on recupère le num de la carte 1
+            // pour chaque slots_to
+                // on recupère le num de la carte 2
+                    //Si le jeu est possible return false
+
+        Vector<ConstraintLayout> slots_from = slots_de_cartes.get("slots_from");
+
+        for (ConstraintLayout co_from: slots_from) {
+            if(co_from.getChildAt(0) !=null){
+                TextView c_from = (TextView) co_from.getChildAt(0);
+                int numero_carte_from = Integer.parseInt(c_from.getText().toString());
+                Carte carte_from = new Carte(numero_carte_from);
+
+                for (Pile p_to: piles) {
+                    if(p_to.isCarteValide(carte_from)){
+                        return false;
+                    }
+                }
+
+            }
+        }
+
+        return true;
+    }
+
+    private boolean enVictoire(){
+        Vector<ConstraintLayout> slots_from = slots_de_cartes.get("slots_from");
+        for (ConstraintLayout temp: slots_from) {
+            if(temp.getChildAt(0) == null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void enregistrer_partie(){
+        instance.ouvrirConnexion();
+
+        String temps = label_chrono.getText().toString();
+
+        int score = getScore();
+        int cartes = getNbr_cartes();
+        Log.i("temps", "enregistrer_partie: "+ " Temps: "+ temps+" Score: "+score+ " Cartes: "+cartes);
+        instance.ajouter_enregistrement(cartes,temps,score);
+        instance.fermerConnexion();
+
     }
 
 
@@ -321,6 +387,11 @@ public class MainActivity extends AppCompatActivity {
                             int valeur_carte = Integer.parseInt(((TextView)carte_joue).getText().toString());
                             Carte temp_carte = new Carte(valeur_carte);
                             if(pile_temp.isCarteValide(temp_carte)){
+
+                                if (getNbr_cartes() == 9 && !label_chrono.isActivated()) {
+                                    run_chrono();
+                                }
+
                                 ConstraintLayout parent = (ConstraintLayout) carte_joue.getParent();
                                 parent.removeView(carte_joue);
 
@@ -333,6 +404,23 @@ public class MainActivity extends AppCompatActivity {
                                 gestion_enregistrement_mouvements(pile_temp);
 
                                 update_labels();
+                                if(enDefaite()){
+                                    enregistrer_partie();
+
+                                    p.show();
+                                    p.setTitre("Défaite");
+                                    //enregistrer données pour database
+                                    //afficher la popup pour recommencer (Victoire)
+                                }
+                                if(enVictoire()){
+                                    enregistrer_partie();
+
+                                    p.show();
+                                    p.setTitre("Victoire !");
+                                    //enregistrer donnèes pour database
+                                    //aficher la popup pour recommencer (Victoire)
+                                }
+
 
                             }
 
@@ -364,8 +452,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void retour_menu(){
+
+        if(p != null)
+            p.dismiss();
+
+        finish();
+    }
+
+
+
     @Override
     protected void onStop() {
+        //enregister les donnèes pour la db
+        enregistrer_partie();
 
         super.onStop();
     }
